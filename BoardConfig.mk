@@ -210,11 +210,6 @@ DEVICE_MANIFEST_PINEAPPLE_FILES := \
     hardware/qcom-caf/sm8650/audio/primary-hal/configs/common/manifest_non_qmaa.xml \
     hardware/qcom-caf/sm8650/audio/primary-hal/configs/common/manifest_non_qmaa_extn.xml
 
-# Sensors
-SOONG_CONFIG_NAMESPACES += XIAOMI_SENSORS
-SOONG_CONFIG_XIAOMI_SENSORS += UDFPS_PATH
-SOONG_CONFIG_XIAOMI_SENSORS_UDFPS_PATH := /sys/class/touch/touch_dev/fod_press_status
-
 # Verified Boot
 BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3

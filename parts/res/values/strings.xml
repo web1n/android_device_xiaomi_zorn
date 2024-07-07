@@ -93,4 +93,9 @@
     <string name="toast_turbo_on">Turbo Charging turned ON</string>
     <string name="toast_turbo_off">Turbo Charging turned OFF</string>
 
+    <!-- Edge Suppression -->
+    <string name="edgesuppression_name">Edge rejection</string>
+    <string name="edgesuppression_summary">Set ignore accidental touch area for curved edges</string>
+    <string name="edgesuppression_enable_name">Enable edge rejection</string>
+
 </resources>

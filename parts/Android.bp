@@ -23,6 +23,7 @@ android_app {
 
     static_libs: [
         "androidx.core_core",
+        "androidx.preference_preference",
         "org.lineageos.settings.resources",
         "vendor.xiaomi.hardware.displayfeature-V2-java",
         "vendor.xiaomi.hw.touchfeature-V1-java"

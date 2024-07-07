@@ -34,6 +34,7 @@ import vendor.xiaomi.hw.touchfeature.ITouchFeature;
 
 import org.lineageos.settings.display.ColorModeService;
 import org.lineageos.settings.doze.PocketService;
+import org.lineageos.settings.edgesuppression.EdgeSuppressionService;
 import org.lineageos.settings.thermal.ThermalUtils;
 import org.lineageos.settings.thermal.ThermalTileService;
 import org.lineageos.settings.turbocharging.TurboChargingService;
@@ -99,6 +100,9 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 
         // Start Pocket Mode Service
         PocketService.startService(context);
+
+        // Apply edge rejection settings after boot.
+        context.startServiceAsUser(new Intent(context, EdgeSuppressionService.class), UserHandle.CURRENT);
 
         // Start TurboChargingService
         Intent turboChargingIntent = new Intent(context, TurboChargingService.class);

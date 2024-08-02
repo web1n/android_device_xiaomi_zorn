@@ -118,6 +118,17 @@ BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE := $(KERNEL_PATH)/vendor_ramd
 BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_ramdisk/modules.load.recovery))
 BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_dlkm/modules.load))
 
+RECOVERY_ADSP_MODULES := \
+    q6_pdr_dlkm.ko \
+    q6_notifier_dlkm.ko \
+    snd_event_dlkm.ko \
+    gpr_dlkm.ko \
+    spf_core_dlkm.ko \
+    adsp_loader_dlkm.ko
+
+PRODUCT_COPY_FILES += \
+    $(foreach module,$(RECOVERY_ADSP_MODULES),$(KERNEL_PATH)/vendor_dlkm/$(module):$(TARGET_COPY_OUT_RECOVERY)/root/lib/modules/$(module))
+
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(KERNEL_PATH)/vendor_dlkm/,$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules) \
     $(call find-copy-subdir-files,*,$(KERNEL_PATH)/vendor_ramdisk/,$(TARGET_COPY_OUT_VENDOR_RAMDISK)/lib/modules) \
@@ -168,6 +179,8 @@ TARGET_POWERSHARE_PATH := /sys/class/qcom-battery/reverse_chg_mode
 
 # Recovery
 BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
+BOARD_ROOT_EXTRA_FOLDERS += vendor/firmware vendor/firmware_mnt
+BOARD_ROOT_EXTRA_SYMLINKS += /lib/modules:/vendor/lib/modules
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true

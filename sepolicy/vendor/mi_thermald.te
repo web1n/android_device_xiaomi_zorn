@@ -7,8 +7,8 @@ allow mi_thermald init:unix_stream_socket connectto;
 allow mi_thermald property_socket:sock_file write;
 
 # Allow mi_thermald to create files in /data/vendor/thermal/
-allow mi_thermald vendor_thermal_data_file:dir { add_name read remove_name search watch write };
-allow mi_thermald vendor_thermal_data_file:file { create getattr open read rename setattr unlink write };
+allow mi_thermald thermal_data_file:dir rw_dir_perms;
+allow mi_thermald thermal_data_file:file { create getattr open read rename setattr unlink write };
 allow mi_thermald vendor_data_file:dir { add_name read remove_name watch write };
 allow mi_thermald vendor_data_file:file { create getattr open read rename setattr unlink write };
 allow mi_thermald mi_thermald:capability { chown fowner sys_admin };

@@ -338,6 +338,8 @@ PRODUCT_PACKAGES += \
     CarrierConfigZorn \
     FrameworksResXiaomi \
     FrameworksResZorn \
+    SettingsProviderResZorn_CN \
+    SettingsProviderResZorn_Global \
     SystemUIResZorn \
     SettingsResXiaomi \
     TelephonyResCommon \

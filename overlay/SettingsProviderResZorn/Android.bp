@@ -1,0 +1,18 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+runtime_resource_overlay {
+    name: "SettingsProviderResZorn_CN",
+    manifest: "AndroidManifest_CN.xml",
+    resource_dirs: ["res_cn"],
+    device_specific: true,
+}
+
+runtime_resource_overlay {
+    name: "SettingsProviderResZorn_Global",
+    manifest: "AndroidManifest_Global.xml",
+    resource_dirs: ["res_global"],
+    device_specific: true,
+}

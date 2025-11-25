@@ -14,12 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 
 import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
-import androidx.preference.PreferenceFragment;
+import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SeekBarPreference;
 
@@ -27,8 +26,7 @@ import com.android.settingslib.widget.MainSwitchPreference;
 
 import org.lineageos.settings.R;
 
-public class EdgeSuppressionSettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener,
-        CompoundButton.OnCheckedChangeListener {
+public class EdgeSuppressionSettingsFragment extends PreferenceFragmentCompat implements OnPreferenceChangeListener {
 
     private static final String TAG = "XiaomiPartsEdgeSuppressionSettingsFragment";
     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
@@ -50,12 +48,12 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragment implemen
         mEdgeSuppressionManager = EdgeSuppressionManager.getInstance(getActivity().getApplicationContext());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
-        addPreferencesFromResource(R.xml.settings_edgesuppression);
+        setPreferencesFromResource(R.xml.settings_edgesuppression, rootKey);
 
         mSwitchBar = (MainSwitchPreference) findPreference("edgesuppression_enable");
         if (mSwitchBar != null) {
             mSwitchBar.setDefaultValue(mEdgeSuppressionManager.getDefaultState());
-            mSwitchBar.addOnSwitchChangeListener(this);
+            mSwitchBar.setOnPreferenceChangeListener(this);
         }
 
         mWidthPreference = (SeekBarPreference) findPreference("edgesuppression_width");
@@ -70,15 +68,16 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragment implemen
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        float value = (Float.parseFloat(newValue.toString()) + 20) / 100;
+        float value;
+        if (preference == mSwitchBar) {
+            value = (Boolean) newValue
+                    ? (float) (mSharedPreferences.getInt("edgesuppression_width", 60) + 20) / 100
+                    : 0.0f;
+        } else {
+            value = (Float.parseFloat(newValue.toString()) + 20) / 100;
+        }
         updateEdgeSuppression(value);
         return true;
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        float value = isChecked ? (float) (mSharedPreferences.getInt("edgesuppression_width", 60) + 20) / 100 : 0.0f;
-        updateEdgeSuppression(value);
     }
 
     @Override

@@ -6,8 +6,9 @@
 
 package org.lineageos.settings.edgesuppression;
 
-import android.app.Fragment;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 import com.android.settingslib.collapsingtoolbar.R;
@@ -21,10 +22,10 @@ public class EdgeSuppressionSettingsActivity extends CollapsingToolbarBaseActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.content_frame);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
         if (fragment == null) {
             mEdgeSuppressionSettingsFragment = new EdgeSuppressionSettingsFragment();
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                 .add(R.id.content_frame, mEdgeSuppressionSettingsFragment, TAG)
                 .commit();
         } else {

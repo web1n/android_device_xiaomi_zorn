@@ -6,22 +6,19 @@
 
 package org.lineageos.settings.touch;
 
-import android.os.IHwBinder.DeathRecipient;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
 import android.util.Log;
-import java.util.ArrayList;
 
 import vendor.xiaomi.hw.touchfeature.ITouchFeature;
 
 public class TfWrapper {
 
     private static final String TAG = "XiaomiPartsTouchFeatureWrapper";
+    private static final int TRANSACTION_SET_MODE_LONG_VALUE = IBinder.FIRST_CALL_TRANSACTION + 7;
 
     private static ITouchFeature mTouchFeature;
-
-    private static DeathRecipient mDeathRecipient = (cookie) -> {
-        Log.d(TAG, "serviceDied");
-        mTouchFeature = null;
-    };
 
     public static ITouchFeature getTouchFeature() {
         if (mTouchFeature == null) {
@@ -47,12 +44,45 @@ public class TfWrapper {
         Log.d(TAG, "setTouchFeatureParams: " + params);
         try {
             if (params.valueArray != null) {
-                touchfeature.setEdgeMode(0, params.mode, params.valueArray, params.valueArray.length);
+                setModeLongValue(touchfeature.asBinder(), params.mode, params.valueArray);
             } else {
                 touchfeature.setTouchMode(0, params.mode, params.value);
             }
         } catch (Exception e) {
             Log.e(TAG, "setTouchFeatureParams failed!", e);
+        }
+    }
+
+    // Stock transaction 8 takes the length before the array and returns an integer status.
+    private static boolean setModeLongValue(IBinder binder, int mode, int[] values) {
+        Parcel data = Parcel.obtain();
+        Parcel reply = Parcel.obtain();
+        try {
+            data.writeInterfaceToken(ITouchFeature.DESCRIPTOR);
+            data.writeInt(0);
+            data.writeInt(mode);
+            data.writeInt(values.length);
+            data.writeIntArray(values);
+
+            if (!binder.transact(TRANSACTION_SET_MODE_LONG_VALUE, data, reply, 0)) {
+                Log.e(TAG, "setModeLongValue transact failed");
+                return false;
+            }
+
+            reply.readException();
+            int ret = reply.readInt();
+            if (ret != 0) {
+                Log.w(TAG, "setModeLongValue returned " + ret);
+                return false;
+            }
+            return true;
+        } catch (RemoteException | RuntimeException e) {
+            mTouchFeature = null;
+            Log.e(TAG, "Failed to apply edge suppression", e);
+            return false;
+        } finally {
+            reply.recycle();
+            data.recycle();
         }
     }
 

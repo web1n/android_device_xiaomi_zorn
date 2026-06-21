@@ -45,3 +45,10 @@ cc_library_shared {
     shared_libs: ["libui","libutils"],
     vendor: true,
 }
+
+cc_library_shared {
+    name: "libar_gpr_shim",
+    srcs: ["libar_gpr_shim.cpp"],
+    shared_libs: ["liblog"],
+    vendor: true,
+}

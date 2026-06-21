@@ -147,7 +147,8 @@ blob_fixups: blob_fixups_user_type = {
      'vendor/lib64/libagm.so'): blob_fixup()
         .replace_needed('libaudioroute.so', 'libaudioroute-v34.so'),
     'vendor/lib64/hw/audio.primary.pineapple.so': blob_fixup()
-        .add_needed('libaudioroute-v34.so'),
+        .add_needed('libaudioroute-v34.so')
+        .add_needed('libar_gpr_shim.so'),
     (
         'vendor/lib64/libdlbdsservice.so',
         'vendor/lib64/libdlbpreg.so',

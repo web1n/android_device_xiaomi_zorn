@@ -1,2 +1,2 @@
-type parts_app, domain;
+type parts_app, domain, coredomain;
 typeattribute parts_app mlstrustedsubject;

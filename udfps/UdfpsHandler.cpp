@@ -14,10 +14,6 @@
 
 #include "UdfpsHandler.h"
 
-#define COMMAND_NIT 10
-#define PARAM_NIT_FOD 1
-#define PARAM_NIT_NONE 0
-
 #define COMMAND_FOD_PRESS_STATUS 1
 #define COMMAND_FOD_PRESS_X 2
 #define COMMAND_FOD_PRESS_Y 3
@@ -27,11 +23,6 @@
 #define FOD_STATUS_PATH "/sys/class/touch/touch_dev/fod_press_status"
 #define FOD_STATUS_OFF 0
 #define FOD_STATUS_ON 1
-
-#define DISP_PARAM_PATH "/sys/devices/virtual/mi_display/disp_feature/disp-DSI-0/disp_param"
-#define DISP_PARAM_LOCAL_HBM_MODE "9"
-#define DISP_PARAM_LOCAL_HBM_OFF "0"
-#define DISP_PARAM_LOCAL_HBM_ON "1"
 
 #define FINGERPRINT_ACQUIRED_VENDOR 7
 
@@ -72,15 +63,10 @@ class XiaomiSM8650UdfpsHandler : public UdfpsHandler {
     void onAcquired(int32_t result, int32_t vendorCode) {
         LOG(DEBUG) << __func__ << " result: " << result << " vendorCode: " << vendorCode;
         if (result != FINGERPRINT_ACQUIRED_VENDOR) {
-            // Set finger as up to disable HBM already, even if the finger is still pressed
+            // Notify finger release even if the finger is still pressed
             setFingerDown(false);
 
             if (static_cast<AcquiredInfo>(result) == AcquiredInfo::GOOD) {
-                // Disable local‑HBM immediately on successful auth
-                set(DISP_PARAM_PATH,
-                    std::string(DISP_PARAM_LOCAL_HBM_MODE) + " " +
-                    DISP_PARAM_LOCAL_HBM_OFF);
-
                 // Notify fingerprint HAL that FOD is off
                 setFodStatus(FOD_STATUS_OFF);
             }
@@ -113,12 +99,6 @@ class XiaomiSM8650UdfpsHandler : public UdfpsHandler {
     }
 
     void setFingerDown(bool pressed) {
-        mDevice->extCmd(mDevice, COMMAND_NIT, pressed ? PARAM_NIT_FOD : PARAM_NIT_NONE);
-
-        set(DISP_PARAM_PATH,
-            std::string(DISP_PARAM_LOCAL_HBM_MODE) + " " +
-            (pressed ? DISP_PARAM_LOCAL_HBM_ON : DISP_PARAM_LOCAL_HBM_OFF));
-
         // Notify HAL of both press and release events
         mDevice->extCmd(mDevice,
                         COMMAND_FOD_PRESS_STATUS,

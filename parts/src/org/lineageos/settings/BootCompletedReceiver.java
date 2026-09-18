@@ -18,18 +18,14 @@
 package org.lineageos.settings;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.ContentObserver;
 import android.hardware.display.DisplayManager;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.ServiceManager;
 import android.os.UserHandle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Display;
 import android.view.Display.HdrCapabilities;
@@ -45,7 +41,6 @@ import org.lineageos.settings.turbocharging.TurboChargingService;
 public class BootCompletedReceiver extends BroadcastReceiver {
     private static final String TAG = "XiaomiParts";
     private static final boolean DEBUG = true;
-    private static final int DOUBLE_TAP_TO_WAKE_MODE = 14;
     private static final int Touch_Fod_Enable     = 10;
     private static final int Touch_Aod_Enable     = 11;
     private static final int Touch_FodIcon_Enable = 16;
@@ -73,9 +68,6 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 
             // Override HDR types
             overrideHdrTypes(context);
-
-            // Register observer for Double Tap to Wake
-            registerDoubleTapToWakeObserver(context);
 
             // force-enable SoFOD on lock screen
             initTouchFeatureService();
@@ -127,37 +119,6 @@ public class BootCompletedReceiver extends BroadcastReceiver {
             }
         } catch (Exception e) {
             Log.e(TAG, "Error overriding HDR types", e);
-        }
-    }
-
-    private void registerDoubleTapToWakeObserver(Context context) {
-        if (DEBUG) Log.i(TAG, "Registering Double Tap to Wake observer.");
-        ContentObserver observer = new ContentObserver(new Handler()) {
-            @Override
-            public void onChange(boolean selfChange) {
-                updateTapToWakeStatus(context);
-            }
-        };
-        context.getContentResolver().registerContentObserver(
-                Settings.Secure.getUriFor(Settings.Secure.DOUBLE_TAP_TO_WAKE),
-                true,
-                observer
-        );
-        updateTapToWakeStatus(context);
-    }
-
-    private void updateTapToWakeStatus(Context context) {
-        if (DEBUG) Log.i(TAG, "Updating Double Tap to Wake status.");
-        try {
-            if (xiaomiTouchFeatureAidl == null) initTouchFeatureService();
-            boolean enabled = Settings.Secure.getInt(
-                    context.getContentResolver(),
-                    Settings.Secure.DOUBLE_TAP_TO_WAKE,
-                    0
-            ) == 1;
-            xiaomiTouchFeatureAidl.setTouchMode(0, DOUBLE_TAP_TO_WAKE_MODE, enabled ? 1 : 0);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to update Tap to Wake status", e);
         }
     }
 

@@ -65,6 +65,11 @@ lib_fixups: lib_fixups_user_type = {
 
 blob_fixups: blob_fixups_user_type = {
     (
+        'vendor/etc/seccomp_policy/qsap_qapeservice.policy',
+        'vendor/etc/seccomp_policy/atfwd@2.0.policy',
+    ): blob_fixup()
+        .add_line_if_missing('lseek: 1'),
+    (
         'odm/etc/camera/enhance_motiontuning.xml',
         'odm/etc/camera/motiontuning.xml'
     ): blob_fixup()

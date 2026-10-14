@@ -262,8 +262,8 @@ PRODUCT_PACKAGES += \
 
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health-service.xiaomi \
-    android.hardware.health-service.xiaomi_recovery
+    android.hardware.health-service.qti \
+    android.hardware.health-service.qti_recovery
 
 # Init
 $(call soong_config_set,libinit,vendor_init_lib,//$(DEVICE_PATH):libinit_xiaomi_8650)

@@ -99,9 +99,13 @@ void vendor_load_properties() {
         }
     } else if (sku == "zorn") { // Redmi K80
         if (region == "CN") { // China
+            set_ro_build_prop("brand", "Redmi");
+            set_ro_build_prop("marketname", "REDMI K80");
             set_ro_build_prop("model", "24117RK2CC");
             set_ro_build_prop("name", "zorn");
         } else {              // Global
+            set_ro_build_prop("brand", "POCO");
+            set_ro_build_prop("marketname", "POCO F7 PRO");
             set_ro_build_prop("model", "24117RK2CG");
             set_ro_build_prop("name", "zorn_global");
         }

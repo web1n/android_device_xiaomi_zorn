@@ -1,6 +1,3 @@
-# Bluetooth
-bluetooth.device.default_name=POCO F7 PRO
-
 # Camera
 debug.config.video.p3.encode.support=true
 debug.config.video.p3.decode.support=true
@@ -80,9 +77,3 @@ persist.vendor.fingerprint.sensor_location=721|2482|105
 
 # Qti
 ro.vendor.qti.va_odm.support=1
-
-# Marketname
-ro.product.marketname=POCO F7 PRO
-
-# USB
-vendor.usb.product_string=POCO F7 PRO

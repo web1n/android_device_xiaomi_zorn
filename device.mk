@@ -337,6 +337,7 @@ PRODUCT_COPY_FILES += \
 # Overlays
 PRODUCT_ENFORCE_RRO_TARGETS := *
 PRODUCT_PACKAGES += \
+    ApertureResZorn \
     CarrierConfigZorn \
     FrameworksResXiaomi \
     FrameworksResZorn \

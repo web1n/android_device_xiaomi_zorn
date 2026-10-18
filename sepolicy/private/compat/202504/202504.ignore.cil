@@ -11,6 +11,7 @@
     hal_touchfeature_xiaomi_service
     parts_app
     settingslib_prop
+    smartqr_app
     touchfeature_device
     vendor_hal_displayfeature_xiaomi_default
     vendor_hal_displayfeature_xiaomi_default_exec

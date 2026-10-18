@@ -27,6 +27,9 @@ $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk
 # Add common definitions for Qualcomm
 $(call inherit-product, hardware/qcom-caf/common/common.mk)
 
+# Smart QR
+$(call inherit-product, packages/apps/XiaomiSmartQR/product.mk)
+
 TARGET_HAS_UDFPS := true
 
 # SHIPPING API

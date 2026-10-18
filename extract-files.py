@@ -100,10 +100,6 @@ blob_fixups: blob_fixups_user_type = {
     ): blob_fixup()
         .add_needed('libcamerahdr_shim.so'),
     (
-        'odm/lib64/com.qti.qseeaon.so'
-    ): blob_fixup()
-        .add_needed('libcameraflare_shim.so'),
-    (
         'odm/lib64/camera/plugins/com.xiaomi.plugin.gainmap.so'
     ): blob_fixup()
         .add_needed('libcameraplugin_shim.so'),

@@ -176,7 +176,6 @@ PRODUCT_PACKAGES += \
     libyuv.vendor \
     libprocessgroup_shim \
     libcamerahdr_shim \
-    libcameraflare_shim \
     libcameraplugin_shim
 
 PRODUCT_COPY_FILES += \

@@ -1412,6 +1412,7 @@ odm/lib64/libqll.so
 odm/lib64/libqll10.so
 odm/lib64/libqllengine.so
 odm/lib64/libqsegnet.so
+odm/lib64/libqshcamera.so;MODULE_SUFFIX=_odm
 odm/lib64/librfs_warp.so
 odm/lib64/libSNPE.so
 odm/lib64/libSnpeDspV66Stub.so;FIX_SONAME

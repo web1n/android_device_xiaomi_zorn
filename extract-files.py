@@ -31,8 +31,12 @@ namespace_imports = [
 def lib_fixup_vendor_suffix(lib: str, partition: str, *args, **kwargs):
     return f'{lib}-{partition}' if partition == 'vendor' else None
 
+def lib_fixup_odm_suffix(lib: str, partition: str, *args, **kwargs):
+    return f'{lib}_odm' if partition == 'odm' else None
+
 lib_fixups: lib_fixups_user_type = {
     **lib_fixups,
+    'libqshcamera': lib_fixup_odm_suffix,
     (
         'vendor.qti.diaghal@1.0',
         'vendor.qti.imsrtpservice@3.0',

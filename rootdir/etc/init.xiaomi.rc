@@ -3,13 +3,6 @@ on boot
     chown system system /dev/xiaomi-touch
     chmod 0660 /dev/xiaomi-touch
 
-    # GAMEBAR
-    chown system graphics /sys/class/drm/sde-crtc-0/measured_fps
-    chmod 0660 /sys/class/drm/sde-crtc-0/measured_fps
-
-    chown system system /sys/class/power_supply/battery/temp
-    chmod 0660 /sys/class/power_supply/battery/temp
-
     # Allow system to modify charging current
     chown system system /sys/class/power_supply/battery/constant_charge_current
     chmod 0664 /sys/class/power_supply/battery/constant_charge_current

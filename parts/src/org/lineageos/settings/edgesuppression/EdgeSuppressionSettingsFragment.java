@@ -8,7 +8,10 @@ package org.lineageos.settings.edgesuppression;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.hardware.display.DisplayManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -32,11 +35,33 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragmentCompat im
     private SeekBarPreference mWidthPreference;
 
     private EdgeSuppressionPreviewView mPreview;
+    private DisplayManager mDisplayManager;
+    private int mRotation = -1;
+
+    private final DisplayManager.DisplayListener mDisplayListener = new DisplayManager.DisplayListener() {
+        @Override
+        public void onDisplayAdded(int displayId) {}
+
+        @Override
+        public void onDisplayRemoved(int displayId) {}
+
+        @Override
+        public void onDisplayChanged(int displayId) {
+            if (displayId != Display.DEFAULT_DISPLAY) {
+                return;
+            }
+            Display display = mDisplayManager.getDisplay(displayId);
+            if (display != null && display.getRotation() != mRotation) {
+                updateEdgeSuppression();
+            }
+        }
+    };
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         mEdgeSuppressionManager = EdgeSuppressionManager.getInstance(getActivity().getApplicationContext());
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        mDisplayManager = getContext().getSystemService(DisplayManager.class);
 
         setPreferencesFromResource(R.xml.settings_edgesuppression, rootKey);
 
@@ -63,6 +88,19 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragmentCompat im
         decorView.addView(mPreview, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         updateEdgeSuppression();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mDisplayManager.registerDisplayListener(mDisplayListener, new Handler(getContext().getMainLooper()));
+        mDisplayListener.onDisplayChanged(Display.DEFAULT_DISPLAY);
+    }
+
+    @Override
+    public void onStop() {
+        mDisplayManager.unregisterDisplayListener(mDisplayListener);
+        super.onStop();
     }
 
     @Override
@@ -100,6 +138,10 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragmentCompat im
     }
 
     private void updateEdgeSuppression() {
+        Display display = mDisplayManager.getDisplay(Display.DEFAULT_DISPLAY);
+        if (display != null) {
+            mRotation = display.getRotation();
+        }
         int[] rectangles = mEdgeSuppressionManager.handleEdgeSuppressionChange();
         if (mPreview != null) {
             mPreview.setRectangles(rectangles);

@@ -13,9 +13,9 @@
         android:title="@string/edgesuppression_enable_name" />
 
     <SeekBarPreference
-        android:key="edgesuppression_width"
+        android:key="edgesuppression_width_pixels"
         android:dependency="edgesuppression_enable"
-        android:defaultValue="60"
-        android:max="80" />
+        android:defaultValue="@integer/edge_suppresson_condition_default"
+        android:max="@integer/edge_suppresson_condition_max" />
 
 </PreferenceScreen>

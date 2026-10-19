@@ -50,13 +50,13 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragmentCompat im
 
         setPreferencesFromResource(R.xml.settings_edgesuppression, rootKey);
 
-        mSwitchBar = (MainSwitchPreference) findPreference("edgesuppression_enable");
+        mSwitchBar = (MainSwitchPreference) findPreference(EdgeSuppressionManager.PREF_ENABLED);
         if (mSwitchBar != null) {
             mSwitchBar.setDefaultValue(mEdgeSuppressionManager.getDefaultState());
             mSwitchBar.setOnPreferenceChangeListener(this);
         }
 
-        mWidthPreference = (SeekBarPreference) findPreference("edgesuppression_width");
+        mWidthPreference = (SeekBarPreference) findPreference(EdgeSuppressionManager.PREF_WIDTH);
         if (mWidthPreference != null) {
             mWidthPreference.setUpdatesContinuously(true);
             mWidthPreference.setOnPreferenceChangeListener(this);
@@ -68,15 +68,17 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragmentCompat im
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        float value;
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
         if (preference == mSwitchBar) {
-            value = (Boolean) newValue
-                    ? (float) (mSharedPreferences.getInt("edgesuppression_width", 60) + 20) / 100
-                    : 0.0f;
+            editor.putBoolean(EdgeSuppressionManager.PREF_ENABLED, (Boolean) newValue);
+        } else if (preference == mWidthPreference) {
+            editor.putInt(EdgeSuppressionManager.PREF_WIDTH, (Integer) newValue);
         } else {
-            value = (Float.parseFloat(newValue.toString()) + 20) / 100;
+            return false;
         }
-        updateEdgeSuppression(value);
+        // Preference listeners run before the framework persists the new value.
+        editor.apply();
+        updateEdgeSuppression();
         return true;
     }
 
@@ -85,16 +87,13 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragmentCompat im
         super.onDestroy();
     }
 
-    private void updateEdgeSuppression(float value) {
-        int suppressionSize = mEdgeSuppressionManager.getSuppressionSize(false, value);
+    private void updateEdgeSuppression() {
+        int suppressionSize = mEdgeSuppressionManager.isEnabled()
+                ? mEdgeSuppressionManager.getWidth() : 0;
         mLeftLayoutParams.width = suppressionSize;
         mRightLayoutParams.width = suppressionSize;
         mLeftView.setLayoutParams(mLeftLayoutParams);
         mRightView.setLayoutParams(mRightLayoutParams);
-
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putFloat("edgesuppression_width_value", value);
-        editor.apply();
 
         mEdgeSuppressionManager.handleEdgeSuppressionChange();
     }
@@ -104,8 +103,7 @@ public class EdgeSuppressionSettingsFragment extends PreferenceFragmentCompat im
         mLeftView = new View(getContext());
         mRightView = new View(getContext());
 
-        int suppressionSize = enabled ? mEdgeSuppressionManager.getSuppressionSize(false,
-                (float) (mSharedPreferences.getInt("edgesuppression_width", 60) + 20) / 100) : 0;
+        int suppressionSize = enabled ? mEdgeSuppressionManager.getWidth() : 0;
         WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getRealMetrics(metrics);

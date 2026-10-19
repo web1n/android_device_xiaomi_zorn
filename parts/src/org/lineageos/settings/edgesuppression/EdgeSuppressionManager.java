@@ -7,11 +7,13 @@
 package org.lineageos.settings.edgesuppression;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+
+import androidx.preference.PreferenceManager;
 
 import com.android.internal.util.ArrayUtils;
 
@@ -19,6 +21,9 @@ import org.lineageos.settings.R;
 import org.lineageos.settings.touch.TfWrapper;
 
 public class EdgeSuppressionManager {
+
+    static final String PREF_ENABLED = "edgesuppression_enable";
+    static final String PREF_WIDTH = "edgesuppression_width_pixels";
 
     private static final String TAG = "XiaomiPartsEdgeSuppressionManager";
     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
@@ -32,7 +37,7 @@ public class EdgeSuppressionManager {
     private int mIndex;
     private int mScreenHeight;
     private int mScreenWidth;
-    private int[] mAbsoluteLevel;
+    private int mAbsoluteWidth;
     private int[] mCorner;
     private String[] mSupportedDevices = {"aurora", "shennong"};
 
@@ -61,7 +66,7 @@ public class EdgeSuppressionManager {
         mScreenWidth = Math.min(displayWidth, displayHeight) - 1;
         mScreenHeight = Math.max(displayWidth, displayHeight) - 1;
 
-        mAbsoluteLevel = mContext.getResources().getIntArray(R.array.edge_suppresson_absolute);
+        mAbsoluteWidth = mContext.getResources().getInteger(R.integer.edge_suppresson_absolute_width);
         mCorner = mContext.getResources().getIntArray(R.array.edge_suppresson_corner);
         int rectSize = mContext.getResources().getInteger(R.integer.edge_suppresson_rect_size);
         int sendSize = mContext.getResources().getInteger(R.integer.edge_suppresson_send_size);
@@ -79,13 +84,13 @@ public class EdgeSuppressionManager {
 
     public int[] handleEdgeSuppressionChange() {
         int rotation = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-        float width = PreferenceManager.getDefaultSharedPreferences(mContext).getFloat("edgesuppression_width_value", getDefaultWidthValue());
+        int width = isEnabled() ? getWidth() : 0;
         int[] suppressionRect = getSuppressionRect(rotation, width);
         TfWrapper.setTouchFeature(new TfWrapper.TfParams(15, suppressionRect));
         return suppressionRect;
     }
 
-    private int[] getSuppressionRect(int rotation, float width) {
+    private int[] getSuppressionRect(int rotation, int width) {
         resetSendArray();
         if (rotation == 1 || rotation == 3) {
             setRectPointForHorizontal(getSuppressionSize(true, width), Mode.ABSOLUTE.index);
@@ -142,16 +147,24 @@ public class EdgeSuppressionManager {
         }
     }
 
-    public int getSuppressionSize(boolean absolute, float width) {
-        return (int) (width * (absolute ? 10 : 50));
+    public int getSuppressionSize(boolean absolute, int width) {
+        return absolute ? (width > 0 ? mAbsoluteWidth : 0) : width;
+    }
+
+    public boolean isEnabled() {
+        return PreferenceManager.getDefaultSharedPreferences(mContext)
+                .getBoolean(PREF_ENABLED, getDefaultState());
+    }
+
+    public int getWidth() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        int defaultWidth = mContext.getResources().getInteger(R.integer.edge_suppresson_condition_default);
+        int maxWidth = mContext.getResources().getInteger(R.integer.edge_suppresson_condition_max);
+        return Math.max(0, Math.min(preferences.getInt(PREF_WIDTH, defaultWidth), maxWidth));
     }
 
     public boolean getDefaultState() {
         return ArrayUtils.contains(mSupportedDevices, Build.SKU);
-    }
-
-    public float getDefaultWidthValue() {
-        return ArrayUtils.contains(mSupportedDevices, Build.SKU) ? 0.8f : 0f;
     }
 
     private void initRectArray() {

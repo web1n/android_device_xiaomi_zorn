@@ -173,6 +173,14 @@ public class EdgeSuppressionManager {
         return Math.max(0, Math.min(preferences.getInt(PREF_WIDTH, defaultWidth), maxWidth));
     }
 
+    int getPhysicalWidth() {
+        return mScreenWidth + 1;
+    }
+
+    int getPhysicalHeight() {
+        return mScreenHeight + 1;
+    }
+
     public boolean getDefaultState() {
         return ArrayUtils.contains(mSupportedDevices, Build.SKU);
     }

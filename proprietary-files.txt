@@ -1423,7 +1423,7 @@ odm/lib64/libSnpeHtpV69Stub.so
 odm/lib64/libSnpeHtpV73Stub.so
 odm/lib64/libSnpeHtpV75Stub.so
 odm/lib64/libsfeShiftExtrapolation.so
-odm/lib64/libsnpe_config.so;DISABLE_CHECKELF
+odm/lib64/libsnpe_config.so
 odm/lib64/libsupermoon.so
 odm/lib64/libswregistrationalgo.so
 odm/lib64/libtfestriping.so;DISABLE_CHECKELF
@@ -1431,7 +1431,7 @@ odm/lib64/libTrueSight.so;DISABLE_CHECKELF
 odm/lib64/libubifocus.so;DISABLE_CHECKELF
 odm/lib64/libvideoBokeh.so
 odm/lib64/libvideoml.so
-odm/lib64/libwrapper_dlengine.so;DISABLE_CHECKELF
+odm/lib64/libwrapper_dlengine.so
 odm/lib64/libxmi_hdr_checker.so
 odm/lib64/libxmi_slow_motion_mein.so
 

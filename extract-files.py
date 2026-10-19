@@ -82,6 +82,11 @@ blob_fixups: blob_fixups_user_type = {
     ): blob_fixup()
         .add_needed('libprocessgroup_shim.so'),
     (
+        'odm/lib64/libsnpe_config.so',
+        'odm/lib64/libwrapper_dlengine.so',
+    ): blob_fixup()
+        .add_needed('liblog.so'),
+    (
         'odm/lib64/camera/plugins/com.xiaomi.plugin.jpegrAggr.so'
     ): blob_fixup()
         .add_needed('libcamerahdr_shim.so'),

@@ -9,8 +9,8 @@ package org.lineageos.settings.edgesuppression;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.WindowManager;
 
 import com.android.internal.util.ArrayUtils;
@@ -52,10 +52,14 @@ public class EdgeSuppressionManager {
         mContext = context.getApplicationContext();
 
         WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics metrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getRealMetrics(metrics);
-        mScreenWidth = Math.min(metrics.widthPixels, metrics.heightPixels) - 1;
-        mScreenHeight = Math.max(metrics.widthPixels, metrics.heightPixels) - 1;
+        int displayWidth = 0;
+        int displayHeight = 0;
+        for (Display.Mode mode : windowManager.getDefaultDisplay().getSupportedModes()) {
+            displayWidth = Math.max(displayWidth, mode.getPhysicalWidth());
+            displayHeight = Math.max(displayHeight, mode.getPhysicalHeight());
+        }
+        mScreenWidth = Math.min(displayWidth, displayHeight) - 1;
+        mScreenHeight = Math.max(displayWidth, displayHeight) - 1;
 
         mAbsoluteLevel = mContext.getResources().getIntArray(R.array.edge_suppresson_absolute);
         mCorner = mContext.getResources().getIntArray(R.array.edge_suppresson_corner);

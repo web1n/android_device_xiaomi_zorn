@@ -37,6 +37,7 @@ def lib_fixup_odm_suffix(lib: str, partition: str, *args, **kwargs):
 lib_fixups: lib_fixups_user_type = {
     **lib_fixups,
     'libqshcamera': lib_fixup_odm_suffix,
+    'sqlite3': lib_fixup_odm_suffix,
     (
         'vendor.qti.diaghal@1.0',
         'vendor.qti.imsrtpservice@3.0',

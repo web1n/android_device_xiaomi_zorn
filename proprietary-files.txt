@@ -325,7 +325,7 @@ odm/lib64/vendor.xiaomi.hardware.aidlbgservice-V1-impl.so
 odm/lib64/vendor.xiaomi.hardware.aidlbgservice-V1-ndk_platform.so
 odm/lib64/vendor.xiaomi.hardware.bgservice@1.0-impl.so
 odm/lib64/vendor.xiaomi.hardware.bgservice@1.0.so
-odm/lib64/sqlite3.so
+odm/lib64/sqlite3.so;MODULE_SUFFIX=_odm
 vendor/lib64/vendor.xiaomi.hardware.aon-V1-ndk.so
 vendor/lib64/vendor.xiaomi.hardware.camera.synthetic-V1-ndk.so
 vendor/lib64/vendor.xiaomi.hardware.camera.synthetic-impl.so
@@ -1274,7 +1274,7 @@ odm/lib64/com.qualcomm.mcx.nonlinearmapper.so;DISABLE_CHECKELF
 odm/lib64/com.qualcomm.mcx.policy.mfl.so;DISABLE_CHECKELF
 odm/lib64/com.qualcomm.qti.mcx.usecase.extension.so;DISABLE_CHECKELF
 odm/lib64/com.xiaomi.camdfx.so
-odm/lib64/com.xiaomi.camhal.overlap.so;DISABLE_DEPS
+odm/lib64/com.xiaomi.camhal.overlap.so
 odm/lib64/com.xiaomi.camhal.submodel.camxfrag.so
 odm/lib64/com.xiaomi.camhal.submodel.chifrag.so
 odm/lib64/hw/camera.qcom.sm8650.so;DISABLE_CHECKELF

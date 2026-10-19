@@ -183,7 +183,7 @@ vendor/lib64/hw/android.hardware.soundtrigger@2.3-impl.so
 vendor/lib64/hw/gyro_fusion_interface.so
 vendor/lib64/libVoiceSdk.so
 vendor/lib64/lib_misound_asc.so
-vendor/lib64/libadm.so;DISABLE_CHECKELF
+vendor/lib64/libadm.so
 vendor/lib64/libarmemlog.so;DISABLE_CHECKELF
 vendor/lib64/libar-pal.so;DISABLE_CHECKELF
 vendor/lib64/libaudio_log_utils.so
@@ -1398,7 +1398,7 @@ odm/lib64/libmmcamera_bestats.so;DISABLE_CHECKELF
 odm/lib64/libmmcamera_cac.so;DISABLE_CHECKELF
 odm/lib64/libmmcamera_lscv35.so;DISABLE_CHECKELF
 odm/lib64/libmmcamera_pdpc.so;DISABLE_CHECKELF
-odm/lib64/libmorpho_Depurple.so;DISABLE_CHECKELF
+odm/lib64/libmorpho_Depurple.so
 odm/lib64/libmpbase.so
 odm/lib64/libofflinedebugdata.so
 odm/lib64/libofflinefeatureintf.so;DISABLE_CHECKELF

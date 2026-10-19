@@ -84,13 +84,14 @@ public class EdgeSuppressionManager {
 
     public int[] handleEdgeSuppressionChange() {
         int rotation = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-        int width = isEnabled() ? getWidth() : 0;
-        int[] suppressionRect = getSuppressionRect(rotation, width);
+        boolean enabled = isEnabled();
+        int width = enabled ? getWidth() : 0;
+        int[] suppressionRect = getSuppressionRect(rotation, width, enabled);
         TfWrapper.setTouchFeature(new TfWrapper.TfParams(15, suppressionRect));
         return suppressionRect;
     }
 
-    private int[] getSuppressionRect(int rotation, int width) {
+    private int[] getSuppressionRect(int rotation, int width, boolean enabled) {
         resetSendArray();
         if (rotation == 1 || rotation == 3) {
             setRectPointForHorizontal(getSuppressionSize(true, width), Mode.ABSOLUTE.index);
@@ -100,6 +101,15 @@ public class EdgeSuppressionManager {
             setRectPointForPortrait(getSuppressionSize(false, width), Mode.CONDITION.index);
         }
         setCornerRectPoint(rotation);
+        if (!enabled) {
+            // Keep the type and position of every region so the HAL can clear it.
+            for (SuppressionRect rect : mRectArray) {
+                rect.setTopLeftX(0);
+                rect.setTopLeftY(0);
+                rect.setBottomRightX(0);
+                rect.setBottomRightY(0);
+            }
+        }
         compileSendArray();
         return mSendArray;
     }

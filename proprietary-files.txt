@@ -3225,6 +3225,7 @@ vendor/app/TrustZoneAccessService/TrustZoneAccessService.apk
 odm/etc/ueventd.rc;MODULE=ueventd-odm.rc
 
 # Vibrator
+odm/lib64/libaachaptics.so:vendor/lib64/libaachaptics.so
 odm/firmware/0_click_P_RTP.bin:vendor/etc/vibrator/effect_0.bin
 odm/firmware/1_doubelClick_P_RTP.bin:vendor/etc/vibrator/effect_1.bin
 odm/firmware/2_tick_P_RTP.bin:vendor/etc/vibrator/effect_2.bin

@@ -48,7 +48,6 @@ lib_fixups: lib_fixups_user_type = {
         'android.hardware.graphics.composer3-V1-ndk',
         'android.hardware.graphics.allocator-V1-ndk',
         'android.hardware.graphics.composer3-V2-ndk',
-        'libagmmixer',
         'vendor.qti.hardware.display.composer3-V1-ndk',
     ): lib_fixup_remove,
 }

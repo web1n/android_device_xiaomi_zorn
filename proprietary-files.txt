@@ -167,10 +167,11 @@ vendor/lib64/hw/com.dsi.ant@1.0-impl.so
 
 # AGM
 vendor/lib64/libagm.so;DISABLE_CHECKELF
+vendor/lib64/libagmmixer.so
 
 # Audio
 odm/lib64/libaudioroute_ext.so
-odm/lib64/libcrussp.so;DISABLE_CHECKELF
+odm/lib64/libcrussp.so
 odm/lib64/libvoipspacespeech.so
 vendor/etc/audio_cloud_control_white_list.xml
 vendor/etc/mem_logger_config.xml

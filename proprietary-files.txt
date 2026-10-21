@@ -318,6 +318,7 @@ vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.1.so
 vendor/lib64/vendor.qti.hardware.bttpi-V3-ndk.so
 
 # Camera
+odm/bin/hw/misensor_camera
 odm/bin/hw/vendor.qti.camera.provider-service_64
 odm/lib64/vendor.qti.hardware.camera.aon-service-impl.so;DISABLE_CHECKELF
 odm/lib64/vendor.qti.hardware.camera.offlinecamera-service-impl.so;DISABLE_CHECKELF
@@ -331,6 +332,7 @@ vendor/lib64/vendor.xiaomi.hardware.aon-V1-ndk.so
 vendor/lib64/vendor.xiaomi.hardware.camera.synthetic-V1-ndk.so
 vendor/lib64/vendor.xiaomi.hardware.camera.synthetic-impl.so
 vendor/lib64/vendor.xiaomi.hardware.quickcamera-V1-ndk.so
+vendor/lib64/vendor.xiaomi.sensor.camera-V1-ndk.so
 odm/etc/init/misensor_camera.rc
 odm/etc/init/vendor.qti.camera.provider-service_64.rc
 odm/etc/vintf/manifest/misensor_camera.xml

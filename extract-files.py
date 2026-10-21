@@ -53,6 +53,11 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 blob_fixups: blob_fixups_user_type = {
+    'odm/bin/hw/misensor_camera': blob_fixup()
+        .binary_regex_replace(
+            b'AImageReader_getWindowNativeHandle',
+            b'AImageReader_getWindow' + b'\x00' * 12,
+        ),
     (
         'vendor/etc/seccomp_policy/qsap_qapeservice.policy',
         'vendor/etc/seccomp_policy/atfwd@2.0.policy',

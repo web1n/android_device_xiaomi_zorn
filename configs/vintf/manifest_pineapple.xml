@@ -19,6 +19,11 @@
         <fqname>IGatekeeper/default</fqname>
     </hal>
     <hal format="aidl">
+        <name>android.hardware.gnss</name>
+        <version>3</version>
+        <fqname>IGnss/default</fqname>
+    </hal>
+    <hal format="aidl">
         <name>android.hardware.nfc</name>
         <fqname>INfc/default</fqname>
     </hal>

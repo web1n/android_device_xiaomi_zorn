@@ -87,6 +87,7 @@ public class EdgeSuppressionManager {
         boolean enabled = isEnabled();
         int width = enabled ? getWidth() : 0;
         int[] suppressionRect = getSuppressionRect(rotation, width, enabled);
+        TfWrapper.setTouchFeature(new TfWrapper.TfParams(8, rotation));
         TfWrapper.setTouchFeature(new TfWrapper.TfParams(15, suppressionRect));
         return suppressionRect;
     }
